@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Browser;
 
 use App\Concert;
 use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ExampleTest extends TestCase
+class ExampleTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
@@ -35,18 +34,24 @@ class ExampleTest extends TestCase
 
         // Act
         // View the concert listing
-        $this->visit('/concerts/' . $concert->id);
+        $this->browse(function ($browser) use ($concert) {
+            $browser->visit('/concerts/' . $concert->id)
+                // ->pause(5000)
+            ;
 
-        // Assert
-        // See the concert details
-        $this->see('Red Cord')
-            ->see('with Animosity and Lethargy')
-            ->see('December 13, 2016')
-            ->see('8:00pm')
-            ->see('32.50')
-            ->see('The Mosh Pit')
-            ->see('123 Example Lane')
-            ->see('Laraville, ON 17916')
-            ->see('For tickets, call (555) 555-5555.');
+
+            // Assert
+            // See the concert details
+            $browser->assertSee('Red Cord')
+                ->assertSee('with Animosity and Lethargy')
+                ->assertSee('December 13, 2016')
+                ->assertSee('8:00pm')
+                ->assertSee('32.50')
+                ->assertSee('The Mosh Pit')
+                ->assertSee('123 Example Lane')
+                ->assertSee('Laraville, ON 17916')
+                ->assertSee('For tickets, call (555) 555-5555.');
+        });
     }
 }
+
