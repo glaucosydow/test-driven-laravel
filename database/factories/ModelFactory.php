@@ -29,7 +29,7 @@ $factory->define(App\Concert::class, function (Faker\Generator $faker) {
     return [
     	'title' => 'Example Band',
     	'subtitle' => 'with the Fake Openers',
-    	'date' => Carbon::now()->addWeeks(2),
+    	'date' => Carbon::parse('+2 weeks'),
     	'ticket_price' => $faker->randomNumber(4),
     	'venue' => 'The Example Theater',
     	'venue_address' => '123 Example Lane',
@@ -37,5 +37,17 @@ $factory->define(App\Concert::class, function (Faker\Generator $faker) {
     	'state' => 'OR',
     	'zip' => '90210',
     	'additional_information' => 'Some sample additional information.',
+    ];
+});
+
+$factory->state(App\Concert::class, 'published', function (Faker\Generator $faker) {
+    return [
+        'published_at' => Carbon::parse('-1 week'),
+    ];
+});
+
+$factory->state(App\Concert::class, 'unpublished', function (Faker\Generator $faker) {
+    return [
+        'published_at' => null,
     ];
 });
