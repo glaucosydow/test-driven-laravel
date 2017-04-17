@@ -9,5 +9,5 @@ php artisan serve --env=testing
 Press `Ctrl+B, D` to detach tmux.
 
 ```
-php artisan dusk
+export APP_ENV=testing && php artisan dusk
 ```

@@ -39,7 +39,6 @@ class ExampleTest extends DuskTestCase
                 // ->pause(5000)
             ;
 
-
             // Assert
             // See the concert details
             $browser->assertSee('Red Cord')
