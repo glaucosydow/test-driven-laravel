@@ -18,6 +18,8 @@ class ConcertOrdersController extends Controller
 
     public function store($concertId)
     {
+    	$concert = Concert::published()->findOrFail($concertId);
+
         $this->validate(
             request(),
             [
@@ -26,8 +28,6 @@ class ConcertOrdersController extends Controller
                 'payment_token' => ['required'],
             ]
         );
-
-    	$concert = Concert::find($concertId);
 
         try {
         	$this->paymentGateway->charge(
