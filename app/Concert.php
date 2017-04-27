@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Order;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use App\Billing\NotEnoughTicketsException;
+use App\Order;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class Concert extends Model
 {
@@ -19,7 +19,7 @@ class Concert extends Model
      */
     public function getFormattedDateAttribute()
     {
-    	return $this->date->format('F j, Y');
+        return $this->date->format('F j, Y');
     }
 
     /**
@@ -27,7 +27,7 @@ class Concert extends Model
      */
     public function getFormattedTimeAttribute()
     {
-    	return $this->date->format('g:ia');
+        return $this->date->format('g:ia');
     }
 
     /**
@@ -35,7 +35,7 @@ class Concert extends Model
      */
     public function getTicketPriceInDollarsAttribute()
     {
-    	return number_format($this->ticket_price / 100, 2);
+        return \number_format($this->ticket_price / 100, 2);
     }
 
     /**
@@ -45,7 +45,7 @@ class Concert extends Model
      */
     public function scopePublished(Builder $query)
     {
-    	return $query->whereNotNull('published_at');
+        return $query->whereNotNull('published_at');
     }
 
     public function orders()
@@ -85,7 +85,7 @@ class Concert extends Model
 
     /**
      * @param string $email
-     * @param int $ticketQuantity
+     * @param int    $ticketQuantity
      *
      * @return Order
      */
@@ -110,7 +110,7 @@ class Concert extends Model
      */
     public function addTickets(int $quantity)
     {
-        foreach (range(1, $quantity) as $i) {
+        foreach (\range(1, $quantity) as $i) {
             $this->tickets()->create([]);
         }
     }

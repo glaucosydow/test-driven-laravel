@@ -4,9 +4,9 @@ namespace Tests\Browser;
 
 use App\Concert;
 use Carbon\Carbon;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ViewConcertListingTest extends DuskTestCase
 {
@@ -57,4 +57,3 @@ class ViewConcertListingTest extends DuskTestCase
         });
     }
 }
-

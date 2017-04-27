@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Ticket;
 use App\Concert;
+use App\Ticket;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -12,11 +12,11 @@ class Order extends Model
 
     public function tickets()
     {
-    	return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class);
     }
 
     public function ticketQuantity()
     {
-    	return $this->tickets()->count();
+        return $this->tickets()->count();
     }
 }
