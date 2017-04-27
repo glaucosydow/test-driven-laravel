@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Exceptions\Handler;
 use App\Exceptions\ExceptionHandler;
+use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -19,5 +20,20 @@ abstract class TestCase extends BaseTestCase
     			throw $e;
     		}
     	});
+    }
+
+    /**
+     * Directly throws an exception if present in the
+     * given instance of TestResponse.
+     *
+     * @param TestResponse $response
+     *
+     * @throws \Exception
+     */
+    protected function throwExceptionIfInResponse(TestResponse $response)
+    {
+        if (isset($response->exception)) {
+            throw $response->exception;
+        }
     }
 }
