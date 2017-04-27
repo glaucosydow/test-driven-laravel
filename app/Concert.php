@@ -6,6 +6,7 @@ use App\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Billing\NotEnoughTicketsException;
+use Illuminate\Database\Eloquent\Collection;
 
 class Concert extends Model
 {
@@ -50,6 +51,31 @@ class Concert extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Checks whether there are orders for
+     * a given customer email.
+     *
+     * @param string $customerEmail
+     *
+     * @return bool
+     */
+    public function hasOrdersFor(string $customerEmail): bool
+    {
+        return $this->orders()->where('email', $customerEmail)->count() > 0;
+    }
+
+    /**
+     * The number of orders for the given customer email.
+     *
+     * @param string $customerEmail
+     *
+     * @return Collection
+     */
+    public function ordersFor(string $customerEmail): Collection
+    {
+        return $this->orders()->where('email', $customerEmail)->get();
     }
 
     public function tickets()
