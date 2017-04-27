@@ -34,7 +34,6 @@ class ConcertOrdersController extends Controller
                 request('ticket_quantity') * $concert->ticket_price,
                 request('payment_token')
             );
-
         	$order = $concert->orderTickets(request('email'), request('ticket_quantity'));
 
         	return response()->json([], 201);
