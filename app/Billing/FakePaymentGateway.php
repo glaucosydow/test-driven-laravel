@@ -44,6 +44,10 @@ class FakePaymentGateway implements PaymentGateway
             throw new PaymentFailedException;
         }
 
+        if ($this->totalCharges() === 0) {
+            return;
+        }
+
         $this->charges->push(-$amount);
     }
 

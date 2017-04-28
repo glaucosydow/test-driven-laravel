@@ -50,4 +50,14 @@ class FakePaymentGatewayTest extends TestCase
 
         $paymentGateway->chargeBack(2500, 'invalid-payment-token');
     }
+
+    /** @test */
+    public function charge_back_doesnt_happen_if_there_arent_any_charges()
+    {
+        $paymentGateway = new FakePaymentGateway;
+
+        $paymentGateway->chargeBack(2500, $paymentGateway->getValidTestToken());
+
+        $this->assertEquals(0, $paymentGateway->totalCharges());
+    }
 }
