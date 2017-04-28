@@ -7,6 +7,7 @@ use App\Order;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Concert extends Model
 {
@@ -17,7 +18,7 @@ class Concert extends Model
     /**
      * @return string
      */
-    public function getFormattedDateAttribute()
+    public function getFormattedDateAttribute(): string
     {
         return $this->date->format('F j, Y');
     }
@@ -25,7 +26,7 @@ class Concert extends Model
     /**
      * @return string
      */
-    public function getFormattedTimeAttribute()
+    public function getFormattedTimeAttribute(): string
     {
         return $this->date->format('g:ia');
     }
@@ -33,7 +34,7 @@ class Concert extends Model
     /**
      * @return string
      */
-    public function getTicketPriceInDollarsAttribute()
+    public function getTicketPriceInDollarsAttribute(): string
     {
         return \number_format($this->ticket_price / 100, 2);
     }
@@ -43,12 +44,15 @@ class Concert extends Model
      *
      * @return Builder
      */
-    public function scopePublished(Builder $query)
+    public function scopePublished(Builder $query): Builder
     {
         return $query->whereNotNull('published_at');
     }
 
-    public function orders()
+    /**
+     * @return HasMany
+     */
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
@@ -78,7 +82,10 @@ class Concert extends Model
         return $this->orders()->where('email', $customerEmail)->get();
     }
 
-    public function tickets()
+    /**
+     * @return HasMany
+     */
+    public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }

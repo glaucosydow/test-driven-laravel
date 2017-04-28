@@ -5,22 +5,33 @@ namespace App;
 use App\Concert;
 use App\Ticket;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
     protected $guarded = [];
 
-    public function tickets()
+    /**
+     * @return HasMany
+     */
+    public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }
 
-    public function ticketQuantity()
+    /**
+     * @return int
+     */
+    public function ticketQuantity(): int
     {
         return $this->tickets()->count();
     }
 
-    public function concert()
+    /**
+     * @return BelongsTo
+     */
+    public function concert(): BelongsTo
     {
         return $this->belongsTo(Concert::class);
     }
