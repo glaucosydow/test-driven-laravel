@@ -37,7 +37,15 @@ class ConcertOrdersController extends Controller
             );
             $order = $concert->orderTickets(request('email'), request('ticket_quantity'));
 
-            return response()->json([], 201);
+            return response()->json(
+                [
+                    'id' => $concert->getKey(),
+                    'email' => $order->email,
+                    'ticket_quantity' => $order->ticketQuantity(),
+                    'amount' => $order->ticketQuantity() * $concert->ticket_price,
+                ],
+                201
+            );
         } catch (PaymentFailedException $e) {
             return response()->json([], 422);
         } catch (NotEnoughTicketsException $e) {
