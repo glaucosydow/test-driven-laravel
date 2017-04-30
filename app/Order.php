@@ -2,15 +2,38 @@
 
 namespace App;
 
-use App\Concert;
+use App\Order;
 use App\Ticket;
+use App\Concert;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
     protected $guarded = [];
+
+    /**
+     * @param Collection $tickets
+     * @param string $email
+     * @param int $amount
+     *
+     * @return Order
+     */
+    public static function forTickets(Collection $tickets, string $email, int $amount): Order
+    {
+        $order = self::create([
+            'email' => $email,
+            'amount' => $amount,
+        ]);
+
+        foreach ($tickets as $ticket) {
+            $order->tickets()->save($ticket);
+        }
+
+        return $order;
+    }
 
     /**
      * @return HasMany
