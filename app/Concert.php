@@ -2,12 +2,13 @@
 
 namespace App;
 
-use App\Billing\NotEnoughTicketsException;
 use App\Order;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Billing\NotEnoughTicketsException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Concert extends Model
 {
@@ -50,11 +51,11 @@ class Concert extends Model
     }
 
     /**
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function orders(): HasMany
+    public function orders(): BelongsToMany
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsToMany(Order::class, 'tickets');
     }
 
     /**
@@ -129,9 +130,9 @@ class Concert extends Model
      */
     public function createOrder(string $email, Collection $tickets): Order
     {
-        $order = $this->orders()->create([
+        $order = Order::create([
             'email' => $email,
-            'amount' => $tickets->count() * $this->ticket_price,
+            'amount' => $tickets->sum('price'),
         ]);
         foreach ($tickets as $ticket) {
             $order->tickets()->save($ticket);
