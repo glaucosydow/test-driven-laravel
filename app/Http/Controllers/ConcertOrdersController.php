@@ -34,16 +34,15 @@ class ConcertOrdersController extends Controller
         );
 
         try {
-            // Find some tickets
-            $tickets = $concert->reserveTickets($ticketQuantity);
-            $reservation = new Reservation($tickets);
+            // Reserve tickets
+            $reservation = $concert->reserveTickets($ticketQuantity);
 
             // Charge the customer for the tickets
             // Introduces a race condition since the payment response might come late!
             $this->paymentGateway->charge($reservation->totalCost(), request('payment_token'));
 
             // Create an order for those tickets
-            $order = Order::forTickets($tickets, request('email'), $reservation->totalCost());
+            $order = Order::forTickets($reservation->tickets(), request('email'), $reservation->totalCost());
 
             return response()->json($order, 201);
         } catch (PaymentFailedException $e) {
