@@ -35,7 +35,7 @@ class ConcertOrdersController extends Controller
 
         try {
             // Find some tickets
-            $tickets = $concert->findTickets($ticketQuantity);
+            $tickets = $concert->reserveTickets($ticketQuantity);
             $reservation = new Reservation($tickets);
 
             // Charge the customer for the tickets
@@ -47,6 +47,7 @@ class ConcertOrdersController extends Controller
 
             return response()->json($order, 201);
         } catch (PaymentFailedException $e) {
+
             return response()->json([], 422);
         } catch (NotEnoughTicketsException $e) {
             $this->paymentGateway->chargeBack($ticketQuantity * $concert->ticket_price, request('payment_token'));

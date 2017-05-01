@@ -34,7 +34,9 @@ class FakePaymentGateway implements PaymentGateway
     public function charge(int $amount, string $token)
     {
         if ($this->beforeFirstChargeCallback !== null) {
-            $this->beforeFirstChargeCallback->__invoke($this);
+            $callBack = $this->beforeFirstChargeCallback;
+            $this->beforeFirstChargeCallback = null;
+            $callBack->__invoke($this);
         }
 
         if ($token !== $this->getValidTestToken()) {

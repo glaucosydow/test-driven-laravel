@@ -3,12 +3,15 @@
 namespace App;
 
 use App\Concert;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ticket extends Model
 {
+    protected $guarded = [];
+
     /**
      * @param Builder $query
      *
@@ -16,7 +19,7 @@ class Ticket extends Model
      */
     public function scopeAvailable(Builder $query)
     {
-        return $query->whereNull('order_id');
+        return $query->whereNull('order_id')->whereNull('reserved_at');
     }
 
     /**
@@ -33,5 +36,13 @@ class Ticket extends Model
     public function getPriceAttribute(): int
     {
     	return $this->concert->ticket_price;
+    }
+
+    /**
+     * Reserve a ticket.
+     */
+    public function reserve()
+    {
+        $this->update(['reserved_at' => Carbon::now()]);
     }
 }

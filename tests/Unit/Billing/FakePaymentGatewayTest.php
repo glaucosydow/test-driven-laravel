@@ -65,16 +65,17 @@ class FakePaymentGatewayTest extends TestCase
     public function running_a_hook_before_the_first_charge()
     {
         $paymentGateway = new FakePaymentGateway;
-        $called = false;
+        $timesCalled = 0;
 
-        $paymentGateway->beforeFirstCharge(function ($paymentGateway) use (&$called) {
-            $called = true;
-            $this->assertEquals(0, $paymentGateway->totalCharges());
+        $paymentGateway->beforeFirstCharge(function ($paymentGateway) use (&$timesCalled) {
+            $timesCalled++;
+            $paymentGateway->charge(2600, $paymentGateway->getValidTestToken());
+            $this->assertEquals(2600, $paymentGateway->totalCharges());
         });
 
         $paymentGateway->charge(2600, $paymentGateway->getValidTestToken());
 
-        $this->assertEquals(2600, $paymentGateway->totalCharges());
-        $this->assertTrue($called);
+        $this->assertEquals(5200, $paymentGateway->totalCharges());
+        $this->assertEquals(1, $timesCalled);
     }
 }
