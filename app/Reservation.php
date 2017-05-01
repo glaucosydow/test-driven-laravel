@@ -26,6 +26,8 @@ class Reservation
 
 	public function cancel()
 	{
-
+		foreach ($this->tickets as $ticket) {
+			$ticket->release();
+		}
 	}
 }

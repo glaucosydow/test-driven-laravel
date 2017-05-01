@@ -23,6 +23,14 @@ class Ticket extends Model
     }
 
     /**
+     * Release a reserved ticket.
+     */
+    public function release()
+    {
+        $this->update(['reserved_at' => null]);
+    }
+
+    /**
      * @return BelongsTo
      */
     public function concert(): BelongsTo
