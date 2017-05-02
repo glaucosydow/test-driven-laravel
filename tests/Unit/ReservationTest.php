@@ -4,12 +4,16 @@ namespace Tests\Unit;
 
 use App\Concert;
 use App\Reservation;
+use App\Ticket;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Mockery;
 use Tests\TestCase;
 
 class ReservationTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /** @test */
     public function calculating_the_total_cost()
     {
@@ -61,5 +65,19 @@ class ReservationTest extends TestCase
         foreach ($tickets as $ticket) {
             $ticket->shouldHaveReceived('release');
         }
+    }
+
+    /** @test */
+    public function completing_a_reservation()
+    {
+        $concert = factory(Concert::class)->create(['ticket_price' => 1200]);
+        $tickets = factory(Ticket::class, 3)->create(['concert_id' => $concert->id]);
+        $reservation = new Reservation($tickets, 'john@example.com');
+
+        $order = $reservation->complete();
+
+        $this->assertEquals('john@example.com', $order->email);
+        $this->assertEquals(3, $order->ticketQuantity());
+        $this->assertEquals(3600, $order->amount);
     }
 }

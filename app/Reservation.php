@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Order;
 use Illuminate\Database\Eloquent\Collection;
 
 class Reservation
@@ -38,6 +39,14 @@ class Reservation
         foreach ($this->tickets as $ticket) {
             $ticket->release();
         }
+    }
+
+    /**
+     * @return Order
+     */
+    public function complete(): Order
+    {
+        return Order::forTickets($this->tickets(), $this->email(), $this->totalCost());
     }
 
     /**
