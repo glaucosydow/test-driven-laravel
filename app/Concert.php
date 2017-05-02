@@ -2,13 +2,13 @@
 
 namespace App;
 
-use App\Order;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use App\Billing\NotEnoughTicketsException;
+use App\Order;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Concert extends Model
 {
@@ -105,17 +105,18 @@ class Concert extends Model
     }
 
     /**
-     * @param int $quantity
+     * @param int    $quantity
+     * @param string $email
      *
      * @return Reservation
      */
-    public function reserveTickets(int $quantity): Reservation
+    public function reserveTickets(int $quantity, string $email): Reservation
     {
         $tickets = $this->findTickets($quantity)->each(function ($ticket) {
             $ticket->reserve();
         });
 
-        return new Reservation($tickets);
+        return new Reservation($tickets, $email);
     }
 
     /**

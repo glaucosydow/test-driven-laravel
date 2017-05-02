@@ -6,39 +6,53 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Reservation
 {
-	/**
-	 * @var Collection
-	 */
-	protected $tickets;
+    /**
+     * @var Collection
+     */
+    protected $tickets;
 
-	public function __construct(Collection $tickets)
-	{
-		$this->tickets = $tickets;
-	}
+    /**
+     * @var string
+     */
+    protected $email;
 
-	/**
-	 * @return int
-	 */
-	public function totalCost()
-	{
-		return $this->tickets->sum('price');
-	}
+    public function __construct(Collection $tickets, string $email)
+    {
+        $this->tickets = $tickets;
+        $this->email = $email;
+    }
 
-	/**
-	 * Cancel a reservation.
-	 */
-	public function cancel()
-	{
-		foreach ($this->tickets as $ticket) {
-			$ticket->release();
-		}
-	}
+    /**
+     * @return int
+     */
+    public function totalCost()
+    {
+        return $this->tickets->sum('price');
+    }
 
-	/**
-	 * @return Collection
-	 */
-	public function tickets(): Collection
-	{
-		return $this->tickets;
-	}
+    /**
+     * Cancel a reservation.
+     */
+    public function cancel()
+    {
+        foreach ($this->tickets as $ticket) {
+            $ticket->release();
+        }
+    }
+
+    /**
+     * @return Collection
+     */
+    public function tickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * @return string
+     */
+    public function email(): string
+    {
+        return $this->email;
+    }
 }
