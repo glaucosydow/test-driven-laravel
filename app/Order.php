@@ -2,13 +2,13 @@
 
 namespace App;
 
+use App\Concert;
 use App\Order;
 use App\Ticket;
-use App\Concert;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -16,8 +16,8 @@ class Order extends Model
 
     /**
      * @param Collection $tickets
-     * @param string $email
-     * @param int $amount
+     * @param string     $email
+     * @param int        $amount
      *
      * @return Order
      */

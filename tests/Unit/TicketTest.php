@@ -2,35 +2,35 @@
 
 namespace Tests\Unit;
 
-use App\Ticket;
 use App\Concert;
+use App\Ticket;
 use Carbon\Carbon;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class TicketTest extends TestCase
 {
-	use DatabaseMigrations;
+    use DatabaseMigrations;
 
     /** @test */
     public function a_ticket_can_be_reserved()
     {
-    	$ticket = factory(Ticket::class)->create();
-    	$this->assertNull($ticket->reserved_at);
+        $ticket = factory(Ticket::class)->create();
+        $this->assertNull($ticket->reserved_at);
 
-    	$ticket->reserve();
+        $ticket->reserve();
 
-    	$this->assertNotNull($ticket->fresh()->reserved_at);
+        $this->assertNotNull($ticket->fresh()->reserved_at);
     }
 
     /** @test */
-    function a_ticket_can_be_released()
+    public function a_ticket_can_be_released()
     {
-    	$ticket = factory(Ticket::class)->states('reserved')->create();
-    	$this->assertNotNull($ticket->reserved_at);
+        $ticket = factory(Ticket::class)->states('reserved')->create();
+        $this->assertNotNull($ticket->reserved_at);
 
-    	$ticket->release();
+        $ticket->release();
 
-    	$this->assertNull($ticket->fresh()->reserved_at);
+        $this->assertNull($ticket->fresh()->reserved_at);
     }
 }

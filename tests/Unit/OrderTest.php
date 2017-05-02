@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Order;
 use App\Concert;
-use Tests\TestCase;
+use App\Order;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class OrderTest extends TestCase
 {

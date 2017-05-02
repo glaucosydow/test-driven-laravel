@@ -4,8 +4,8 @@ namespace App;
 
 use App\Concert;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ticket extends Model
@@ -35,7 +35,7 @@ class Ticket extends Model
      */
     public function concert(): BelongsTo
     {
-    	return $this->belongsTo(Concert::class);
+        return $this->belongsTo(Concert::class);
     }
 
     /**
@@ -43,7 +43,7 @@ class Ticket extends Model
      */
     public function getPriceAttribute(): int
     {
-    	return $this->concert->ticket_price;
+        return $this->concert->ticket_price;
     }
 
     /**
