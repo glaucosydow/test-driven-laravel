@@ -7,6 +7,7 @@
         <title>@yield('title', 'TicketBeast')</title>
 
         <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+        @include('scripts.app')
     </head>
     <body class="bg-dark">
         <div id="app">
@@ -16,5 +17,6 @@
         @stack('beforeScripts')
         <script src="{{ elixir('js/app.js') }}"></script>
         @stack('afterScripts')
+        {{ svg_spritesheet() }}
     </body>
 </html>
