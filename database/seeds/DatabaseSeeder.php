@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Concert::class)->states('published')->create([
+        $concert = factory(App\Concert::class)->states('published')->create([
             'title' => "The Red Chord",
             'subtitle' => "with Animosity and Lethargy",
             'venue' => "The Mosh Pit",
@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
             'ticket_price' => 3250,
             'additional_information' => "This concert is 19+.",
         ]);
+        $concert->addTickets(10);
     }
 }

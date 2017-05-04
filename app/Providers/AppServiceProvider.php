@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Billing\PaymentGateway;
+use App\Billing\StripePaymentGateway;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 
@@ -26,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing')) {
             $this->app->register(DuskServiceProvider::class);
         }
+
+        $this->app->bind(StripePaymentGateway::class, function () {
+            return new StripePaymentGateway(config('services.stripe.secret'));
+        });
+        $this->app->bind(PaymentGateway::class, StripePaymentGateway::class);
     }
 }
