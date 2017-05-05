@@ -10,7 +10,7 @@ class FakePaymentGatewayTest extends TestCase
     /** @test */
     public function charges_with_a_valid_payment_token_are_successful()
     {
-        $paymentGateway = new FakePaymentGateway;
+        $paymentGateway = $this->getPaymentGateway();
 
         $paymentGateway->charge(2500, $paymentGateway->getValidTestToken());
 
@@ -77,5 +77,10 @@ class FakePaymentGatewayTest extends TestCase
 
         $this->assertEquals(5200, $paymentGateway->totalCharges());
         $this->assertEquals(1, $timesCalled);
+    }
+
+    protected function getPaymentGateway()
+    {
+        return new FakePaymentGateway;
     }
 }
