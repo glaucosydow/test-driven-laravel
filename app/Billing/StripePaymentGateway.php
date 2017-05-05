@@ -93,7 +93,6 @@ class StripePaymentGateway implements PaymentGateway
     {
         $newCharges = Charge::all(
             [
-                "limit" => 1,
                 "ending_before" => $lastCharge->id,
             ],
             ['api_key' => $this->apiKey]
