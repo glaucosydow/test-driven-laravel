@@ -21,7 +21,8 @@ interface PaymentGateway
 
     /**
      * @param callable $callback
-     * @param Collection
+     *
+     * @return Collection
      */
     public function newChargesDuring(callable $callback): Collection;
 }

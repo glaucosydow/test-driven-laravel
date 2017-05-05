@@ -22,7 +22,10 @@ class FakePaymentGateway implements PaymentGateway
         $this->charges = collect();
     }
 
-    public function getValidTestToken()
+    /**
+     * @return string
+     */
+    public function getValidTestToken(): string
     {
         return 'valid-token';
     }
@@ -63,6 +66,9 @@ class FakePaymentGateway implements PaymentGateway
         $this->charges->push(-$amount);
     }
 
+    /**
+     * @return int
+     */
     public function totalCharges()
     {
         return $this->charges->sum();
@@ -74,5 +80,18 @@ class FakePaymentGateway implements PaymentGateway
     public function beforeFirstCharge(Closure $callback)
     {
         $this->beforeFirstChargeCallback = $callback;
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return Collection
+     */
+    public function newChargesDuring(callable $callback): Collection
+    {
+        $chargesFrom = $this->charges->count();
+        $callback($this);
+
+        return collect($this->charges->slice($chargesFrom)->values());
     }
 }
