@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('/mockups/order', function () {
+    return view('orders.show');
+});
+
 Route::get('/concerts/{id}', 'ConcertsController@show');
 
 Route::post('/concerts/{id}/orders', 'ConcertOrdersController@store');
+
+Route::get('/order/{confirmation_number}', 'OrdersController@show');
