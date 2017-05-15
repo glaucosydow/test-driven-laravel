@@ -7,6 +7,7 @@ use App\Order;
 use App\Ticket;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -33,6 +34,18 @@ class Order extends Model
         }
 
         return $order;
+    }
+
+    /**
+     * @param string $confirmationNumber
+     *
+     * @throws ModelNotFoundException
+     *
+     * @return Order
+     */
+    public static function findByConfirmationNumber(string $confirmationNumber)
+    {
+        return self::where('confirmation_number', $confirmationNumber)->firstOrFail();
     }
 
     /**
