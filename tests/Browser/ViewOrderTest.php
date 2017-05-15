@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Concert;
 use App\Order;
 use App\Ticket;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -16,11 +17,18 @@ class ViewOrderTest extends TestCase
     public function user_can_view_their_order_confirmation()
     {
         // Create a concert.
-        $concert = factory(Concert::class)->create();
+        $concert = factory(Concert::class)->create([
+            'title' => 'The Red Chord',
+            'subtitle' => 'with Animosity and Lethargy',
+            'venue' => 'The Mosh Pit',
+            'venue_address' => '123 Example Lane',
+            'date' => Carbon::parse('2017-03-12 8pm'),
+        ]);
         // Create an order.
         $order = factory(Order::class)->create([
             'confirmation_number' => 'CONFIRMATIONNUMBER1234',
             'amount' => 8500,
+            'email' => 'john@example.com',
             'card_last_four' => '1881',
         ]);
         // Create some tickets.
@@ -51,5 +59,13 @@ class ViewOrderTest extends TestCase
         $response->assertSee('**** **** **** 1881');
         $response->assertSee('TICKET123');
         $response->assertSee('TICKET456');
+        $response->assertSee('The Red Chord');
+        $response->assertSee('with Animosity and Lethargy');
+        $response->assertSee('The Mosh Pit');
+        $response->assertSee('123 Example Lane');
+        $response->assertSee('john@example.com');
+
+        $response->assertSee('March 12, 2017');
+        $response->assertSee('8:00pm');
     }
 }

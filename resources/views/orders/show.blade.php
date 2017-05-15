@@ -23,8 +23,8 @@
                 <div class="card m-xs-b-5">
                     <div class="card-section p-xs-y-3 flex-baseline flex-spaced text-light bg-gray">
                         <div>
-                            <h1 class="text-xl wt-normal">Bla</h1>
-                            <p class="text-light-muted">Awesome concert!</p>
+                            <h1 class="text-xl wt-normal">{{ $ticket->concert->title }}</h1>
+                            <p class="text-light-muted">{{ $ticket->concert->subtitle }}</p>
                         </div>
                         <div class="text-right">
                             <strong>General Admission</strong>
@@ -40,12 +40,12 @@
                                     </div>
                                     <div class="media-body p-xs-l-4">
                                         <p class="wt-bold">
-                                            <time datetime="2017-05-13 12:00">
-                                                2017-05-13 12:00
+                                            <time datetime="{{ $ticket->concert->date->format('Y-m-d H:i') }}">
+                                                {{ $ticket->concert->date->format('l, F j, Y') }}
                                             </time>
                                         </p>
                                         <p class="text-dark-soft">
-                                            Doors at 11:00
+                                            Doors at {{ $ticket->concert->date->format('g:ia') }}
                                         </p>
                                     </div>
                                 </div>
@@ -56,9 +56,9 @@
                                         @icon('location', 'text-brand-muted')
                                     </div>
                                     <div class="media-body p-xs-l-4">
-                                        <p class="wt-bold">Gogu Venue</p>
+                                        <p class="wt-bold">{{ $ticket->concert->venue }}</p>
                                         <div class="text-dark-soft">
-                                            <p>Awesome Street</p>
+                                            <p>{{ $ticket->concert->venue_address }}</p>
                                             <p>
                                                 Roman, România, 12121
                                             </p>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="card-section flex-baseline flex-spaced">
                         <p class="text-lg">{{ $ticket->code }}</p>
-                        <p>gigi@gmail.com</p>
+                        <p>{{ $order->email }}</p>
                     </div>
                 </div>
                 @endforeach
