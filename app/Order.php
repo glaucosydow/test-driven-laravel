@@ -25,6 +25,7 @@ class Order extends Model
     public static function forTickets(Collection $tickets, string $email, int $amount): Order
     {
         $order = self::create([
+            'confirmation_number' => app(OrderConfirmationNumberGenerator::class)->generate(),
             'email' => $email,
             'amount' => $amount,
         ]);
@@ -78,6 +79,7 @@ class Order extends Model
     public function toArray(): array
     {
         return [
+            'confirmation_number' => $this->confirmation_number,
             'email' => $this->email,
             'ticket_quantity' => $this->ticketQuantity(),
             'amount' => $this->amount,

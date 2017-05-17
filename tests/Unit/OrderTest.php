@@ -56,13 +56,17 @@ class OrderTest extends TestCase
     /** @test */
     public function convert_to_an_array()
     {
-        $concert = factory(Concert::class)->create(['ticket_price' => 1200]);
-        $concert->addTickets(5);
-        $order = $concert->orderTickets('john@example.com', 5);
+        $order = factory(Order::class)->create([
+            'email' => 'john@example.com',
+            'amount' => 6000,
+            'confirmation_number' => 'ORDERNUMBER1234',
+        ]);
+        $order->tickets()->saveMany(factory(Ticket::class, 5)->create());
 
         $result = $order->toArray();
 
         $this->assertEquals([
+            'confirmation_number' => 'ORDERNUMBER1234',
             'email' => 'john@example.com',
             'ticket_quantity' => 5,
             'amount' => 6000,
