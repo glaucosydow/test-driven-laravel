@@ -2,14 +2,15 @@
 
 namespace App;
 
-use App\Concert;
 use App\Order;
 use App\Ticket;
-use Illuminate\Database\Eloquent\Collection;
+use App\Concert;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Facades\OrderConfirmationNumber;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Order extends Model
 {
@@ -25,7 +26,7 @@ class Order extends Model
     public static function forTickets(Collection $tickets, string $email, int $amount): Order
     {
         $order = self::create([
-            'confirmation_number' => app(OrderConfirmationNumberGenerator::class)->generate(),
+            'confirmation_number' => OrderConfirmationNumber::generate(),
             'email' => $email,
             'amount' => $amount,
         ]);
