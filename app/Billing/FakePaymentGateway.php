@@ -33,7 +33,7 @@ class FakePaymentGateway implements PaymentGateway
      *
      * @return string
      */
-    public function getValidTestToken(string $cardNumber): string
+    public function getValidTestToken(string $cardNumber = '4242424242424242'): string
     {
         $token = 'fake-tok_' . str_random(24);
         $this->tokens[$token] = $cardNumber;
@@ -69,7 +69,7 @@ class FakePaymentGateway implements PaymentGateway
      */
     public function chargeBack(int $amount, string $token)
     {
-        if ($token !== $this->getValidTestToken()) {
+        if (! $this->tokens->has($token)) {
             throw new PaymentFailedException;
         }
 
@@ -77,7 +77,11 @@ class FakePaymentGateway implements PaymentGateway
             return;
         }
 
-        $this->charges->push(-$amount);
+        $this->charges->push(new Charge([
+                'amount' => -$amount,
+                'card_last_four' => $this->tokens[$token],
+            ])
+        );
     }
 
     /**
@@ -85,7 +89,7 @@ class FakePaymentGateway implements PaymentGateway
      */
     public function totalCharges()
     {
-        return $this->charges->sum();
+        return $this->charges->map->amount()->sum();
     }
 
     /**
