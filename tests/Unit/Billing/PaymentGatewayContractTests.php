@@ -24,6 +24,17 @@ trait PaymentGatewayContractTests
     }
 
     /** @test */
+    public function can_get_details_about_a_successful_charge()
+    {
+        $paymentGateway = $this->getPaymentGateway();
+
+        $charge = $paymentGateway->charge(2000, $paymentGateway->getValidTestToken('0000000000004242'));
+
+        $this->assertEquals('4242', $charge->cardLastFour());
+        $this->assertEquals(2000, $charge->amount());
+    }
+
+    /** @test */
     public function can_fetch_charges_created_during_a_callback()
     {
         $paymentGateway = $this->getPaymentGateway();

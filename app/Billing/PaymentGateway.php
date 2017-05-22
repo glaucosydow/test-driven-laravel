@@ -15,9 +15,11 @@ interface PaymentGateway
     public function charge(int $amount, string $token);
 
     /**
+     * @param string $cardNumber
+     *
      * @return string
      */
-    public function getValidTestToken(): string;
+    public function getValidTestToken(string $cardNumber): string;
 
     /**
      * @param callable $callback
