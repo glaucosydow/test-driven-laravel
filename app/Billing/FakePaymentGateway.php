@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 
 class FakePaymentGateway implements PaymentGateway
 {
+    const TEST_CARD = '4242424242424242';
+
     /**
      * @var Collection
      */
@@ -33,7 +35,7 @@ class FakePaymentGateway implements PaymentGateway
      *
      * @return string
      */
-    public function getValidTestToken(string $cardNumber = '4242424242424242'): string
+    public function getValidTestToken(string $cardNumber = self::TEST_CARD): string
     {
         $token = 'fake-tok_' . str_random(24);
         $this->tokens[$token] = $cardNumber;
@@ -59,7 +61,7 @@ class FakePaymentGateway implements PaymentGateway
 
         return $this->charges[] = new Charge([
             'amount' => $amount,
-            'card_last_four' => $this->tokens[$token],
+            'card_last_four' => substr($this->tokens[$token], -4),
         ]);
     }
 
@@ -79,7 +81,7 @@ class FakePaymentGateway implements PaymentGateway
 
         $this->charges->push(new Charge([
                 'amount' => -$amount,
-                'card_last_four' => $this->tokens[$token],
+                'card_last_four' => substr($this->tokens[$token], -4),
             ])
         );
     }
