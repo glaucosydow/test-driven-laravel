@@ -2,15 +2,16 @@
 
 namespace App;
 
+use App\Billing\Charge;
+use App\Concert;
+use App\Facades\OrderConfirmationNumber;
 use App\Order;
 use App\Ticket;
-use App\Concert;
-use Illuminate\Database\Eloquent\Model;
-use App\Facades\OrderConfirmationNumber;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -19,21 +20,20 @@ class Order extends Model
     /**
      * @param Collection $tickets
      * @param string     $email
-     * @param int        $amount
+     * @param Charge     $charge
      *
      * @return Order
      */
-    public static function forTickets(Collection $tickets, string $email, int $amount): Order
+    public static function forTickets(Collection $tickets, string $email, Charge $charge): Order
     {
         $order = self::create([
             'confirmation_number' => OrderConfirmationNumber::generate(),
             'email' => $email,
-            'amount' => $amount,
+            'amount' => $charge->amount(),
+            'card_last_four' => $charge->cardLastFour(),
         ]);
 
-        foreach ($tickets as $ticket) {
-            $order->tickets()->save($ticket);
-        }
+        $order->tickets()->saveMany($tickets);
 
         return $order;
     }
