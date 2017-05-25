@@ -4,10 +4,10 @@ namespace App\Providers;
 
 use App\Billing\PaymentGateway;
 use App\Billing\StripePaymentGateway;
-use Laravel\Dusk\DuskServiceProvider;
-use Illuminate\Support\ServiceProvider;
 use App\OrderConfirmationNumberGenerator;
 use App\RandomOrderConfirmationNumberGenerator;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -4,8 +4,8 @@ namespace App;
 
 interface OrderConfirmationNumberGenerator
 {
-	/**
-	 * @return string
-	 */
-	public function generate();
+    /**
+     * @return string
+     */
+    public function generate();
 }

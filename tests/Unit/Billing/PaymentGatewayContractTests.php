@@ -30,7 +30,7 @@ trait PaymentGatewayContractTests
 
         $charge = $paymentGateway->charge(2000, $paymentGateway->getValidTestToken($paymentGateway::TEST_CARD));
 
-        $this->assertEquals(substr($paymentGateway::TEST_CARD, -4), $charge->cardLastFour());
+        $this->assertEquals(\substr($paymentGateway::TEST_CARD, -4), $charge->cardLastFour());
         $this->assertEquals(2000, $charge->amount());
     }
 

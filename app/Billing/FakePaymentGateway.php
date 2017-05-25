@@ -61,7 +61,7 @@ class FakePaymentGateway implements PaymentGateway
 
         return $this->charges[] = new Charge([
             'amount' => $amount,
-            'card_last_four' => substr($this->tokens[$token], -4),
+            'card_last_four' => \substr($this->tokens[$token], -4),
         ]);
     }
 
@@ -81,7 +81,7 @@ class FakePaymentGateway implements PaymentGateway
 
         $this->charges->push(new Charge([
                 'amount' => -$amount,
-                'card_last_four' => substr($this->tokens[$token], -4),
+                'card_last_four' => \substr($this->tokens[$token], -4),
             ])
         );
     }

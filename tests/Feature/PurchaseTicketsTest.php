@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Concert;
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
+use App\Billing\PaymentGateway;
+use App\Concert;
 use App\OrderConfirmationNumberGenerator;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
 
 class PurchaseTicketsTest extends TestCase
 {

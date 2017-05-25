@@ -4,8 +4,8 @@ namespace App\Billing;
 
 use App\Billing\PaymentFailedException;
 use Illuminate\Support\Collection;
-use Stripe\Error\InvalidRequest;
 use Stripe\Charge as StripeCharge;
+use Stripe\Error\InvalidRequest;
 use Stripe\Token;
 
 class StripePaymentGateway implements PaymentGateway
@@ -50,7 +50,7 @@ class StripePaymentGateway implements PaymentGateway
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getValidTestToken(string $cardNumber = self::TEST_CARD): string
     {

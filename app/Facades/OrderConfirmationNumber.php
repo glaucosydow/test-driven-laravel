@@ -2,14 +2,14 @@
 
 namespace App\Facades;
 
-use Illuminate\Support\Facades\Facade;
 use App\OrderConfirmationNumberGenerator;
+use Illuminate\Support\Facades\Facade;
 
 class OrderConfirmationNumber extends Facade
 {
-	/**
-	 * @return string
-	 */
+    /**
+     * @return string
+     */
     protected static function getFacadeAccessor()
     {
         return OrderConfirmationNumberGenerator::class;
