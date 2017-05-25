@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use App\Concert;
+use App\Facades\TicketCode;
+use App\Order;
 use App\Ticket;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -32,5 +34,21 @@ class TicketTest extends TestCase
         $ticket->release();
 
         $this->assertNull($ticket->fresh()->reserved_at);
+    }
+
+    /** @test */
+    public function a_ticket_can_be_claimed_for_an_order()
+    {
+        $order = factory(Order::class)->create();
+        $ticket = factory(Ticket::class)->create(['code' => null]);
+        TicketCode::shouldReceive('generate')->andReturn('TICKETCODE1');
+
+        $ticket->claimFor($order);
+
+        // Assert that the ticket is saved to the order
+        $this->assertContains($ticket->id, $order->tickets->pluck('id'));
+
+        // Assert that the ticket had the expected ticket code generated
+        $this->assertEquals('TICKETCODE1', $ticket->code);
     }
 }
