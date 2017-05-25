@@ -7,11 +7,11 @@ use App\Concert;
 use App\Facades\OrderConfirmationNumber;
 use App\Order;
 use App\Ticket;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Order extends Model
 {
@@ -33,7 +33,7 @@ class Order extends Model
             'card_last_four' => $charge->cardLastFour(),
         ]);
 
-        $order->tickets()->saveMany($tickets);
+        $tickets->each->claimFor($order);
 
         return $order;
     }
