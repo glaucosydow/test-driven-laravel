@@ -16,7 +16,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.3",
         "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "@stable",
+        "mockery/mockery": "dev-master",
         "phpunit/phpunit": "~5.7"
     },
     "autoload": {
