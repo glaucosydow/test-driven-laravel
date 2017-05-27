@@ -6,10 +6,18 @@ use App\Exceptions\ExceptionHandler;
 use App\Exceptions\Handler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
+use Mockery;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+    }
 
     protected function disableExceptionHandling()
     {
